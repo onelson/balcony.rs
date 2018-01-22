@@ -52,7 +52,10 @@ RUN echo "Building OpenCV" \
         && cd build \
             && cmake -DENABLE_PRECOMPILED_HEADERS=OFF \
                      -DCMAKE_BUILD_TYPE=Release \
-                      -DCMAKE_INSTALL_PREFIX=/usr/local .. \
+                     -DCMAKE_INSTALL_PREFIX=/usr/local .. \
+                     -DBUILD_EXAMPLES=OFF \
+                     -DBUILD_TESTS=OFF \
+                     -DBUILD_PERF_TESTS=OFF \
             && make -j7 && make install \
         && cd .. \
     && rm -rf opencv-* \
