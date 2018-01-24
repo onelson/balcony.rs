@@ -10,7 +10,7 @@ services:
       - /dev/snd
       - /dev/dri
     volumes:
-      - .:/code  
+      - .:/code
       # gtk requires some mounts for access to the desktop env
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev/shm:/dev/shm
@@ -23,7 +23,7 @@ services:
     environment:
         - TERM
         - DISPLAY
-        - RUST_BACKTRACE=1
+        - RUST_BACKTRACE
 
 volumes:
   cargo-cache:
