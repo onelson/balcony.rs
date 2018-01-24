@@ -5,21 +5,28 @@ use opencv::core;
 use opencv::highgui;
 
 fn run(url: &str) -> Result<(),String> {
-    let window = "video capture";
-    try!(highgui::named_window(window,1));
-    let mut cam = try!(highgui::VideoCapture::new(url));
+    let mut cam = highgui::VideoCapture::new(url)?;
 
-    loop {
-        let mut frame = try!(core::Mat::new());
-        try!(cam.read(&mut frame));
-        if try!(frame.size()).width > 0 {
-            try!(highgui::imshow(window, &mut frame));
-        }
-        if try!(highgui::wait_key(10)) > 0 {
-            break;
+    if !cam.is_opened()? {
+        Err(format!("unable to open: `{}`", url))
+    } else {
+        let window = "video capture";
+        highgui::named_window(window, 1)?;
+
+        loop {
+            let mut frame = core::Mat::new()?;
+
+            cam.read(&mut frame)?;
+
+            if frame.size()?.width > 0 {
+                highgui::imshow(window, &mut frame)?;
+            }
+
+            if highgui::wait_key(10)? > 0 {
+                return Ok(())
+            }
         }
     }
-    Ok(())
 }
 
 fn main() {
